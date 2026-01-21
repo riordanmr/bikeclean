@@ -1,5 +1,5 @@
 <?php
-require_once '../config-bikeclean.php';
+require_once '../../config/config-bikeclean.php';
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

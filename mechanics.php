@@ -1,5 +1,5 @@
 <?php
-require_once '../config-bikeclean.php';
+require_once '../../config/config-bikeclean.php';
 $conn = getDBConnection();
 
 // Handle form submissions

@@ -1,5 +1,5 @@
 <?php
-require_once '../config-bikeclean.php';
+require_once '../../config/config-bikeclean.php';
 $conn = getDBConnection();
 
 // Handle form submissions
@@ -85,7 +85,7 @@ $lastMechanicId = isset($_COOKIE['last_mechanic_id']) ? intval($_COOKIE['last_me
                     <label for="description">Description:</label>
                     <input type="text" id="description" name="description" 
                            value="<?php echo $editBike ? htmlspecialchars($editBike['description']) : ''; ?>" 
-                           required placeholder="e.g., Red Trek Mountain Bike - Customer: John Doe">
+                           required placeholder="e.g., Red Trek Mountain Bike">
                 </div>
                 
                 <div class="form-group">
