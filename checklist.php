@@ -221,6 +221,25 @@ $conn->close();
             });
         });
         
+        // Save immediately before navigating away
+        window.addEventListener('beforeunload', (e) => {
+            if (hasChanges && !isSaving) {
+                // Use sendBeacon for reliable data transmission during unload
+                const formData = new FormData();
+                formData.append('bike_id', bikeId);
+                
+                checkboxes.forEach(checkbox => {
+                    formData.append(checkbox.name, checkbox.checked ? '1' : '0');
+                });
+                
+                // Convert FormData to URLSearchParams for sendBeacon
+                const data = new URLSearchParams(formData);
+                navigator.sendBeacon('update_bike.php', data);
+                
+                // Note: We don't update UI state here since the page is unloading
+            }
+        });
+        
         // Auto-save every 10 seconds
         setInterval(() => {
             if (hasChanges) {
