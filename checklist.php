@@ -72,7 +72,7 @@ $conn->close();
 
         <div class="bike-info">
             <h2><?php echo htmlspecialchars($bike['description']); ?></h2>
-            <p><strong>ID:</strong> <?php echo $bike['id']; ?></p>
+            <!-- <p><strong>ID:</strong> <?php echo $bike['id']; ?></p> -->
             <p><strong>Mechanic:</strong> <?php echo $bike['mechanic_name'] ? htmlspecialchars($bike['mechanic_name']) : 'Unassigned'; ?></p>
             <p id="save-status" class="save-status"></p>
         </div>
@@ -218,6 +218,9 @@ $conn->close();
                 if (hasChanges) {
                     saveStatus.textContent = 'Unsaved changes';
                     saveStatus.className = 'save-status warning';
+                } else {
+                    saveStatus.textContent = '';
+                    saveStatus.className = 'save-status';
                 }
             });
         });
