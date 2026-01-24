@@ -91,7 +91,7 @@ if (isset($_GET['edit'])) {
                         <div class="list-item">
                             <div class="item-content">
                                 <strong><?php echo htmlspecialchars($mechanic['full_name']); ?></strong>
-                                <small>ID: <?php echo $mechanic['id']; ?></small>
+                                <!-- <small>ID: <?php echo $mechanic['id']; ?></small> -->
                             </div>
                             <div class="item-actions">
                                 <a href="mechanics.php?edit=<?php echo $mechanic['id']; ?>" class="btn btn-small btn-secondary">Edit</a>
