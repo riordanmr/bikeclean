@@ -31,6 +31,7 @@ $repairItems = [
     'wheels_clean' => 'Wheels: Clean',
     'wheels_true' => 'Wheels: True',
     'spokes_clean' => 'Spokes: Clean',
+    'seatpost_clean_grease' => 'Seatpost: Clean & Grease',
     'kickstand_tighten' => 'Kickstand: Tighten',
     'seat_inspect' => 'Seat: Inspect',
     'tires_valve_stems' => 'Tires: Straighten Valve Stems',

@@ -21,6 +21,7 @@ $repairFields = [
     'wheels_clean',
     'wheels_true',
     'spokes_clean',
+    'seatpost_clean_grease',
     'kickstand_tighten',
     'seat_inspect',
     'tires_valve_stems',
