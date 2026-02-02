@@ -62,6 +62,7 @@ $lastMechanicId = isset($_COOKIE['last_mechanic_id']) ? intval($_COOKIE['last_me
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Bikes - BikeClean</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
