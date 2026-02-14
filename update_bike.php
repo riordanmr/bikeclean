@@ -39,13 +39,23 @@ $repairFields = [
     'chrome_clean'
 ];
 
-// Build UPDATE query
+// Build UPDATE query with prepared statements
 $updateParts = [];
+$params = [];
+$types = '';
+
 foreach ($repairFields as $field) {
     if (isset($_POST[$field])) {
-        $value = intval($_POST[$field]);
-        $updateParts[] = "$field = $value";
+        $updateParts[] = "$field = ?";
+        $types .= 'i';
+        $params[] = intval($_POST[$field]);
     }
+}
+
+if (array_key_exists('notes', $_POST)) {
+    $updateParts[] = "notes = ?";
+    $types .= 's';
+    $params[] = trim($_POST['notes']);
 }
 
 if (empty($updateParts)) {
@@ -53,9 +63,19 @@ if (empty($updateParts)) {
     exit();
 }
 
-$sql = "UPDATE bikes SET " . implode(', ', $updateParts) . " WHERE id = $bikeId";
+$sql = "UPDATE bikes SET " . implode(', ', $updateParts) . " WHERE id = ?";
+$types .= 'i';
+$params[] = $bikeId;
 
-if ($conn->query($sql)) {
+$stmt = $conn->prepare($sql);
+if ($stmt === false) {
+    echo json_encode(['success' => false, 'error' => 'Database error: ' . $conn->error]);
+    exit();
+}
+
+$stmt->bind_param($types, ...$params);
+
+if ($stmt->execute()) {
     echo json_encode([
         'success' => true,
         'message' => 'Bike updated successfully',
@@ -64,9 +84,10 @@ if ($conn->query($sql)) {
 } else {
     echo json_encode([
         'success' => false,
-        'error' => 'Database error: ' . $conn->error
+        'error' => 'Database error: ' . $stmt->error
     ]);
 }
 
+$stmt->close();
 $conn->close();
 ?>

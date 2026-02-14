@@ -11,12 +11,15 @@ if (!isset($_GET['id'])) {
 $bikeId = intval($_GET['id']);
 
 // Get bike details
-$result = $conn->query("
+$stmt = $conn->prepare("
     SELECT b.*, m.full_name as mechanic_name 
     FROM bikes b 
     LEFT JOIN mechanics m ON b.mechanic_id = m.id 
-    WHERE b.id = $bikeId
+    WHERE b.id = ?
 ");
+$stmt->bind_param('i', $bikeId);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     header("Location: bikes.php");
@@ -24,6 +27,7 @@ if ($result->num_rows === 0) {
 }
 
 $bike = $result->fetch_assoc();
+$stmt->close();
 
 // Define repair items
 $repairItems = [
@@ -93,6 +97,11 @@ $conn->close();
                         <label for="<?php echo $field; ?>"><?php echo htmlspecialchars($label); ?></label>
                     </div>
                 <?php endforeach; ?>
+
+                <div class="notes-item">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" rows="2" placeholder="Add notes..."><?php echo htmlspecialchars($bike['notes'] ?? ''); ?></textarea>
+                </div>
             </form>
 
             <div class="progress-summary">
@@ -108,6 +117,7 @@ $conn->close();
     <script>
         const bikeId = document.getElementById('bikeId').value;
         const checkboxes = document.querySelectorAll('#checklistForm input[type="checkbox"]');
+        const notesInput = document.getElementById('notes');
         const saveStatus = document.getElementById('save-status');
         const progressFill = document.getElementById('progressFill');
         const progressText = document.getElementById('progressText');
@@ -122,6 +132,7 @@ $conn->close();
             checkboxes.forEach(checkbox => {
                 lastSavedState[checkbox.name] = checkbox.checked;
             });
+            lastSavedState.notes = notesInput.value;
             updateProgress();
         }
         
@@ -146,6 +157,9 @@ $conn->close();
                     hasChanges = true;
                 }
             });
+            if (notesInput.value !== lastSavedState.notes) {
+                hasChanges = true;
+            }
         }
         
         // Save changes via AJAX
@@ -168,6 +182,7 @@ $conn->close();
             checkboxes.forEach(checkbox => {
                 formData.append(checkbox.name, checkbox.checked ? '1' : '0');
             });
+            formData.append('notes', notesInput.value);
             
             // Send AJAX request
             fetch('update_bike.php', {
@@ -184,6 +199,7 @@ $conn->close();
                     checkboxes.forEach(checkbox => {
                         lastSavedState[checkbox.name] = checkbox.checked;
                     });
+                    lastSavedState.notes = notesInput.value;
                     hasChanges = false;
                     saveStatus.textContent = 'Saved ✓';
                     saveStatus.className = 'save-status success';
@@ -226,6 +242,17 @@ $conn->close();
                 }
             });
         });
+
+        notesInput.addEventListener('input', () => {
+            checkForChanges();
+            if (hasChanges) {
+                saveStatus.textContent = 'Unsaved changes';
+                saveStatus.className = 'save-status warning';
+            } else {
+                saveStatus.textContent = '';
+                saveStatus.className = 'save-status';
+            }
+        });
         
         // Save immediately before navigating away
         window.addEventListener('beforeunload', (e) => {
@@ -237,6 +264,7 @@ $conn->close();
                 checkboxes.forEach(checkbox => {
                     formData.append(checkbox.name, checkbox.checked ? '1' : '0');
                 });
+                formData.append('notes', notesInput.value);
                 
                 // Convert FormData to URLSearchParams for sendBeacon
                 const data = new URLSearchParams(formData);
