@@ -445,7 +445,6 @@ nav a:hover {
 
 .checkbox-item input[type="checkbox"]:checked + label {
     color: var(--success-color);
-    text-decoration: line-through;
 }
 
 .notes-item {
