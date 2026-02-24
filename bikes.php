@@ -131,7 +131,7 @@ $lastMechanicId = isset($_COOKIE['last_mechanic_id']) ? intval($_COOKIE['last_me
                             <div class="item-content">
                                 <strong><?php echo htmlspecialchars($bike['description']); ?></strong>
                                 <small>
-                                    Updated: <?php echo date('Y-m-d H:i:s', strtotime($bike['updated_at'])); ?> 
+                                    Added: <?php echo date('Y-m-d H:i:s', strtotime($bike['created_at'])); ?> 
                                     <!-- | Mechanic: <?php echo $bike['mechanic_name'] ? htmlspecialchars($bike['mechanic_name']) : 'Unassigned'; ?> -->
                                 </small>
                             </div>
