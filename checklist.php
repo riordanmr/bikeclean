@@ -31,15 +31,16 @@ $stmt->close();
 
 // Define repair items
 $repairItems = [
-    'frame_clean' => 'Frame: Clean',
-    'wheels_clean' => 'Wheels: Clean',
-    'wheels_true' => 'Wheels: True',
-    'spokes_clean' => 'Spokes: Clean',
-    'seatpost_clean_grease' => 'Seatpost: Clean & Grease',
-    'kickstand_tighten' => 'Kickstand: Tighten',
-    'seat_inspect' => 'Seat: Inspect',
     'tires_valve_stems' => 'Tires: Straighten Valve Stems',
     'tires_inflate' => 'Tires: Inflate',
+    'frame_clean' => 'Frame: Clean',
+    'wheels_clean' => 'Wheels: Clean',
+    'spokes_clean' => 'Spokes: Clean',
+    'wheels_true' => 'Wheels: True',
+    'seatpost_clean_grease' => 'Seatpost: Clean & Grease',
+    'seat_inspect' => 'Seat: Inspect',
+    'wheelhubs_tighten' => 'Wheel Hubs: Tighten',
+    'kickstand_tighten' => 'Kickstand: Tighten',
     'rear_derailleur' => 'Rear Derailleur: Clean and Adjust',
     'cassette_clean' => 'Cassette: Clean',
     'chain_clean' => 'Chain: Clean',
